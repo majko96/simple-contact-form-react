@@ -45,15 +45,26 @@ export default function ContactForm() {
         validationSchema: getContactModalSchema(),
         onSubmit: (values, {resetForm}) => {
             setNotExistEmail(false)
-            if (values.email === notExistEmail) {
-                setIsSent(false);
-                setNotExistEmail(true)
-                return;
-            }
-            setIsSent(true);
-            resetForm();
+            setIsSent(false);
+            setTimeout(function () {
+                if (values.email === notExistEmail) {
+                    setIsSent(false);
+                    setNotExistEmail(true)
+                    return;
+                }
+                setIsSent(true);
+                resetForm();
+            }, 3000);
         },
     });
+
+    React.useEffect(() => {
+        if (Object.keys(formik.errors).length !== 0) {
+            setNotExistEmail(false)
+            setIsSent(false);
+        }
+        console.log(formik.errors)
+    }, [formik.errors]);
 
     return (
         <div className={classes.mainContainer}>
