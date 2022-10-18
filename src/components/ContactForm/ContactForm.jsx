@@ -63,7 +63,6 @@ export default function ContactForm() {
             setNotExistEmail(false)
             setIsSent(false);
         }
-        console.log(formik.errors)
     }, [formik.errors]);
 
     return (
