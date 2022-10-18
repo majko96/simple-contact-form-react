@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) =>
 export default function ContactForm() {
     const classes = useStyles();
     const [isSent, setIsSent] = React.useState(false);
+    const [isNotExistEmail, setNotExistEmail] = React.useState(false);
+    const notExistEmail = 'neexistujici@email.cz'
 
     const formik = useFormik({
         initialValues: {
@@ -42,9 +44,14 @@ export default function ContactForm() {
         validateOnChange: true,
         validationSchema: getContactModalSchema(),
         onSubmit: (values, {resetForm}) => {
+            setNotExistEmail(false)
+            if (values.email === notExistEmail) {
+                setIsSent(false);
+                setNotExistEmail(true)
+                return;
+            }
             setIsSent(true);
             resetForm();
-            console.log(values);
         },
     });
 
@@ -117,6 +124,12 @@ export default function ContactForm() {
                         { isSent
                             ?
                             <p>Správa úspešne odoslaná.</p>
+                            :
+                            <></>
+                        }
+                        { isNotExistEmail
+                            ?
+                            <p>Neexistujíci emailová adresa.</p>
                             :
                             <></>
                         }
