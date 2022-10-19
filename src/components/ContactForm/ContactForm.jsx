@@ -4,17 +4,8 @@ import {useFormik} from 'formik';
 import {getContactModalSchema} from './schema';
 import makeStyles from '@mui/styles/makeStyles';
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
-        textArea: {
-            paddingTop: theme.spacing(2),
-            '& textarea': {
-                width: '390px',
-                [theme.breakpoints.down('sm')]: {
-                    width: '100%',
-                }
-            },
-        },
         mainContainer: {
             position: 'absolute',
             left: '50%',
@@ -31,6 +22,7 @@ const useStyles = makeStyles((theme) =>
 export default function ContactForm() {
     const classes = useStyles();
     const [isSent, setIsSent] = React.useState(false);
+    const [isDisabled, setIsDisabled] = React.useState(true);
     const [isNotExistEmail, setNotExistEmail] = React.useState(false);
     const notExistEmail = 'neexistujici@email.cz'
 
@@ -39,7 +31,7 @@ export default function ContactForm() {
             name: '',
             message: '',
             email: '',
-            phone: '',
+            mobile: '',
         },
         validateOnChange: true,
         validationSchema: getContactModalSchema(),
@@ -62,7 +54,10 @@ export default function ContactForm() {
         if (Object.keys(formik.errors).length !== 0) {
             setNotExistEmail(false)
             setIsSent(false);
+            setIsDisabled(true);
+            return;
         }
+        setIsDisabled(false)
     }, [formik.errors]);
 
     return (
@@ -87,14 +82,13 @@ export default function ContactForm() {
                         <TextField
                             label="Mobil"
                             variant="standard"
-                            required
-                            name='phone'
+                            name='mobile'
                             onChange={formik.handleChange}
-                            value={formik.values.phone}
+                            value={formik.values.mobile}
                             onBlur={formik.handleBlur}
-                            helperText={formik.touched.phone ? formik.errors.phone : ''}
+                            helperText={formik.touched.mobile ? formik.errors.mobile : ''}
                             error={Boolean(
-                                formik.touched.phone && formik.errors.phone
+                                formik.touched.mobile && formik.errors.mobile
                             )}
                         />
                     </Grid>
@@ -102,7 +96,6 @@ export default function ContactForm() {
                         <TextField
                             label="Email"
                             variant="standard"
-                            required
                             name='email'
                             onChange={formik.handleChange}
                             value={formik.values.email}
@@ -113,9 +106,8 @@ export default function ContactForm() {
                             )}
                         />
                     </Grid>
-                    <Grid item sm={12} className={classes.textArea}>
+                    <Grid item sm={12}>
                         <TextField
-                            required
                             placeholder='Dobrý deň, ...'
                             name='message'
                             onChange={formik.handleChange}
@@ -149,6 +141,7 @@ export default function ContactForm() {
                             type='submit'
                             variant='contained'
                             color='primary'
+                            disabled={isDisabled}
                         >
                             Odoslať
                         </Button>
