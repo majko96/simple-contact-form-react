@@ -14,6 +14,7 @@ const useStyles = makeStyles(() =>
         },
         mainForm: {
             maxWidth: '600px',
+            minWidth: '250px',
             padding: '32px'
         }
     })
@@ -74,7 +75,7 @@ export default function ContactForm() {
         }
 
         setIsDisabled(false);
-    }, [formik.errors]);
+    }, [formik.errors, formik.values.email, formik.values.mobile, formik.values.message]);
 
     return (
         <div className={classes.mainContainer}>
