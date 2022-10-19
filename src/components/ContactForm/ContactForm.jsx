@@ -59,6 +59,10 @@ export default function ContactForm() {
             setIsDisabled(true);
             return;
         }
+        if (formik.errors.hasOwnProperty('email') && formik.errors.hasOwnProperty('mobile')) {
+            setIsDisabled(true);
+            return;
+        }
 
         if (formik.errors.hasOwnProperty('email') && formik.values.mobile === '') {
             setIsDisabled(true);
