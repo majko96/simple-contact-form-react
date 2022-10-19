@@ -20,7 +20,7 @@ export function getContactModalSchema(_options)
                     .required('Aspoň jeden údaj povinný!'),
             }),
         'mobile': Yup.string().matches(
-            /^[0]{1}[0-9]{1,9}$|^[+]+[0-9]+$/,
+            /^[+]?[()/0-9. -]{9,}$/,
             options.mobileNotValid
         )
             .when('email', {
