@@ -17,7 +17,7 @@ export function getContactModalSchema(_options)
             .when('mobile', {
                 is: (mobile) => !mobile || mobile.length === 0,
                 then: Yup.string()
-                    .required('Aspoň jeden údaj povinný!'),
+                    .required('Aspoň jeden údaj povinný! (email/mobil)'),
             }),
         'mobile': Yup.string().matches(
             /^[+]?[()/0-9. -]{9,}$/,
@@ -26,7 +26,7 @@ export function getContactModalSchema(_options)
             .when('email', {
                 is: (email) => !email || email.length === 0,
                 then: Yup.string()
-                    .required('Aspoň jeden údaj povinný!')
+                    .required('Aspoň jeden údaj povinný! (email/mobil)')
             }),
         message: Yup.string()
             .required(options.required),
