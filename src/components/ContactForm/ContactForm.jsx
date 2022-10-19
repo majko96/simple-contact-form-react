@@ -54,10 +54,22 @@ export default function ContactForm() {
         if (Object.keys(formik.errors).length !== 0) {
             setNotExistEmail(false)
             setIsSent(false);
+        }
+        if (formik.values.message === '' ) {
             setIsDisabled(true);
             return;
         }
-        setIsDisabled(false)
+
+        if (formik.errors.hasOwnProperty('email') && formik.values.mobile === '') {
+            setIsDisabled(true);
+            return;
+        }
+        if (formik.errors.hasOwnProperty('mobile') && formik.values.email === '') {
+            setIsDisabled(true);
+            return;
+        }
+
+        setIsDisabled(false);
     }, [formik.errors]);
 
     return (
